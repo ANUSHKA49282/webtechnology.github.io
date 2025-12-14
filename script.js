@@ -469,3 +469,71 @@
                 parallax.style.transform = `translateY(${scrolled * 0.5}px)`;
             }
         });
+        const timelineItems = document.querySelectorAll(".timeline-item");
+
+        const revealTimeline = () => {
+            timelineItems.forEach(item => {
+                const itemTop = item.getBoundingClientRect().top;
+                if (itemTop < window.innerHeight - 100) {
+                    item.classList.add("show");
+                }
+            });
+        };
+
+        window.addEventListener("scroll", revealTimeline);
+        revealTimeline();
+        const eduItems = document.querySelectorAll(".timeline-item");
+
+        const revealEducation = () => {
+            eduItems.forEach((item, index) => {
+                const top = item.getBoundingClientRect().top;
+                if (top < window.innerHeight - 100) {
+                    setTimeout(() => {
+                        item.classList.add("show");
+                    }, index * 200); // stagger effect
+                }
+            });
+        };
+
+        window.addEventListener("scroll", revealEducation);
+        revealEducation();
+        const roles = [
+            "a Software Engineer",
+            "an AI Enthusiast",
+            "a Full Stack Developer",
+            "a Problem Solver"
+        ];
+
+        let roleIndex = 0;
+        let charIndex = 0;
+        let deleting = false;
+
+        const typingSpeed = 90;
+        const deletingSpeed = 50;
+        const holdDelay = 1200;
+
+        const typeTarget = document.getElementById("type-text");
+
+        function typeRole() {
+            const current = roles[roleIndex];
+
+            if (!deleting) {
+                typeTarget.textContent = current.slice(0, charIndex++);
+                if (charIndex === current.length + 1) {
+                    setTimeout(() => deleting = true, holdDelay);
+                }
+            } else {
+                typeTarget.textContent = current.slice(0, charIndex--);
+                if (charIndex === 0) {
+                    deleting = false;
+                    roleIndex = (roleIndex + 1) % roles.length;
+                }
+            }
+
+            setTimeout(typeRole, deleting ? deletingSpeed : typingSpeed);
+        }
+
+        typeRole();
+
+
+
